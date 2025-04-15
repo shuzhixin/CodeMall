@@ -1,18 +1,21 @@
-# 基于Java的商城网站系统设计与实现
+# 商城网站设计与实现
 
-> 学习过程中，遇到问题可以咨询作者。
+> 技术栈
+>
+> 数据库：mysql
+>
+> 后端：springboot、mybatis
+>
+> 后台管理前端：vue3、vue-router、axios、antdesign vue
+>
+> PC端购物网站：vue3、vue-router、axios
+>
+> 学习过程中，遇到问题可以咨询作者 sxm19900109（付费咨询）微信。
 
 
-### 演示地址
+### 产品介绍
 
-前台地址： http://shop.gitapp.cn
 
-后台地址：http://shop.gitapp.cn/admin
-
-后台管理帐号：
-
-用户名：admin123
-密码：admin123
 
 ### 功能介绍
 
@@ -96,5 +99,5 @@ npm run dev
 
 ### 付费咨询
 
-微信：lengqin1024
+微信：sxm19900109（付费咨询）
 
