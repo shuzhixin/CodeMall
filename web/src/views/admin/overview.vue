@@ -94,262 +94,262 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
+import { ref } from "vue";
 
-import { InteractionOutlined, StarFilled, StarTwoTone } from '@ant-design/icons-vue';
-import {listApi} from '/@/api/overview'
+import { InteractionOutlined, StarFilled, StarTwoTone } from "@ant-design/icons-vue";
+import { listApi } from "/@/api/overview";
 
-let showSpin = ref(true)
+let showSpin = ref(true);
 
-const visitChartDiv = ref()
-const barChartDiv = ref()
-const pieChartDiv = ref()
+const visitChartDiv = ref();
+const barChartDiv = ref();
+const pieChartDiv = ref();
 
 let visitChart, barChart, pieChart;
 
 let tdata = reactive({
   data: {}
-})
+});
 
 onMounted(() => {
-  list()
-  window.onresize = function () { // resize
-    visitChart.resize()
-    barChart.resize()
-    pieChart.resize()
-  }
-})
+  list();
+  window.onresize = function() { // resize
+    visitChart.resize();
+    barChart.resize();
+    pieChart.resize();
+  };
+});
 
 const list = () => {
   listApi({}).then(res => {
-    console.log(res.data)
-    tdata.data = res.data
-    initCharts()
-    initBarChart()
-    initPieChart()
+    console.log(res.data);
+    tdata.data = res.data;
+    initCharts();
+    initBarChart();
+    initPieChart();
 
-    showSpin.value = false
+    showSpin.value = false;
   }).catch(err => {
-    showSpin.value = false
-  })
-}
+    showSpin.value = false;
+  });
+};
 
 const initCharts = () => {
-  let xData = []
-  let uvData = []
-  let pvData = []
+  let xData = [];
+  let uvData = [];
+  let pvData = [];
   tdata.data.visitList.forEach((item, index) => {
-    xData.push(item.day)
-    uvData.push(item.uv)
-    pvData.push(item.pv)
-  })
-  echarts.init(visitChartDiv.value)
-  visitChart = echarts.init(visitChartDiv.value)
+    xData.push(item.day);
+    uvData.push(item.uv);
+    pvData.push(item.pv);
+  });
+  echarts.init(visitChartDiv.value);
+  visitChart = echarts.init(visitChartDiv.value);
   let option = {
     title: {
-      text: ''
+      text: ""
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: "axis"
     },
     legend: {
-      data: ['IP', 'visit'],
-      top: '90%',
-      left: 'center'
+      data: ["IP", "visit"],
+      top: "90%",
+      left: "center"
     },
     grid: {
-      top: '30px',
-      left: '20px',
-      right: '20px',
-      bottom: '40px',
+      top: "30px",
+      left: "20px",
+      right: "20px",
+      bottom: "40px",
       containLabel: true
     },
     xAxis: {
-      type: 'category',
+      type: "category",
       axisLabel: {
         textStyle: {
-          color: '#2F4F4F'
+          color: "#2F4F4F"
         }
       },
       axisLine: {
         lineStyle: {
-          color: '#2F4F4F'
+          color: "#2F4F4F"
         }
       },
       // boundaryGap: false,
       data: xData
     },
     yAxis: {
-      type: 'value',
-      axisLine: {show: false},
-      axisTick: {show: false},
+      type: "value",
+      axisLine: { show: false },
+      axisTick: { show: false },
       splitLine: {
         show: true, // 网格线
         lineStyle: {
-          color: 'rgba(10, 10, 10, 0.1)',
+          color: "rgba(10, 10, 10, 0.1)",
           width: 1,
-          type: 'solid'
+          type: "solid"
         }
       }
     },
     series: [
       {
-        name: 'IP',
-        type: 'line',
-        stack: 'Total',
+        name: "IP",
+        type: "line",
+        stack: "Total",
         data: uvData
       },
       {
-        name: 'visit',
-        type: 'line',
-        stack: 'Total',
+        name: "visit",
+        type: "line",
+        stack: "Total",
         data: pvData
       }
     ]
-  }
-  visitChart.setOption(option)
-}
+  };
+  visitChart.setOption(option);
+};
 
 const initBarChart = () => {
-  let xData = []
-  let yData = []
+  let xData = [];
+  let yData = [];
   tdata.data.popularThings.forEach((item, index) => {
-    xData.push(item.title)
-    yData.push(item.count)
-  })
+    xData.push(item.title);
+    yData.push(item.count);
+  });
   // const xData = ['遥远的救世主', '平凡的世界', '测试书籍12', '测试书籍13', '测试书籍14', '测试书籍15', '测试书籍16', '测试书籍17']
   // const yData = [220, 200, 180, 150, 130, 110, 100, 80]
-  barChart = echarts.init(barChartDiv.value)
+  barChart = echarts.init(barChartDiv.value);
   let option = {
     grid: {
       // 让图表占满容器
-      top: '40px',
-      left: '40px',
-      right: '40px',
-      bottom: '40px'
+      top: "40px",
+      left: "40px",
+      right: "40px",
+      bottom: "40px"
     },
     title: {
-      text: '热门商品排名',
+      text: "热门商品排名",
       textStyle: {
-        color: '#aaa',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
+        color: "#aaa",
+        fontStyle: "normal",
+        fontWeight: "normal",
         fontSize: 18
       },
-      x: 'center',
-      y: 'top'
+      x: "center",
+      y: "top"
     },
     tooltip: {
-      trigger: 'axis',
+      trigger: "axis",
       axisPointer: {
-        type: 'shadow'
+        type: "shadow"
       }
     },
     xAxis: {
       data: xData,
-      type: 'category',
+      type: "category",
       axisLabel: {
         rotate: 30, // 倾斜30度,
         textStyle: {
-          color: '#2F4F4F'
+          color: "#2F4F4F"
         }
       },
       axisLine: {
         lineStyle: {
-          color: '#2F4F4F'
+          color: "#2F4F4F"
         }
       }
     },
     yAxis: {
-      type: 'value',
-      axisLine: {show: false},
-      axisTick: {show: false},
+      type: "value",
+      axisLine: { show: false },
+      axisTick: { show: false },
       splitLine: {
         show: true, // 网格线
         lineStyle: {
-          color: 'rgba(10, 10, 10, 0.1)',
+          color: "rgba(10, 10, 10, 0.1)",
           width: 1,
-          type: 'solid'
+          type: "solid"
         }
       }
     },
     series: [
       {
         data: yData,
-        type: 'bar',
+        type: "bar",
         itemStyle: {
           normal: {
-            color: function (params) {
+            color: function(params) {
               // 柱图颜色
-              return '#70B0EA'
+              return "#70B0EA";
             }
           }
         }
       }
     ]
-  }
-  barChart.setOption(option)
-}
+  };
+  barChart.setOption(option);
+};
 
 const initPieChart = () => {
-  let pieData = []
+  let pieData = [];
   tdata.data.popularClassification.forEach((item, index) => {
-    pieData.push({name: item.title, value: item.count})
-  })
-  pieChart = echarts.init(pieChartDiv.value)
+    pieData.push({ name: item.title, value: item.count });
+  });
+  pieChart = echarts.init(pieChartDiv.value);
   const option = {
     grid: {
       // 让图表占满容器
-      top: '40px',
-      left: '40px',
-      right: '40px',
-      bottom: '40px'
+      top: "40px",
+      left: "40px",
+      right: "40px",
+      bottom: "40px"
     },
     title: {
-      text: '热门商品分类',
+      text: "热门商品分类",
       textStyle: {
-        color: '#aaa',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
+        color: "#aaa",
+        fontStyle: "normal",
+        fontWeight: "normal",
         fontSize: 18
       },
-      x: 'center',
-      y: 'top'
+      x: "center",
+      y: "top"
     },
     tooltip: {
-      trigger: 'item'
+      trigger: "item"
     },
     legend: {
-      top: '90%',
-      left: 'center'
+      top: "90%",
+      left: "center"
     },
     series: [
       {
-        name: '分类',
-        type: 'pie',
+        name: "分类",
+        type: "pie",
         itemStyle: {
           normal: {
-            color: function (params) {
-              const colorList = ['#70B0EA', '#B3A3DA', '#88DEE2', '#62C4C8', '#58A3A1']
-              let index = params.dataIndex
+            color: function(params) {
+              const colorList = ["#70B0EA", "#B3A3DA", "#88DEE2", "#62C4C8", "#58A3A1"];
+              let index = params.dataIndex;
               if (params.dataIndex >= colorList.length) {
-                index = params.dataIndex - colorList.length
+                index = params.dataIndex - colorList.length;
               }
-              return colorList[index]
+              return colorList[index];
             }
           }
         },
-        radius: ['40%', '70%'],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         label: {
           show: false,
-          position: 'center'
+          position: "center"
         },
         emphasis: {
           label: {
             show: true,
             fontSize: 20,
-            fontWeight: 'bold'
+            fontWeight: "bold"
           }
         },
         labelLine: {
@@ -358,9 +358,9 @@ const initPieChart = () => {
         data: pieData
       }
     ]
-  }
-  pieChart.setOption(option)
-}
+  };
+  pieChart.setOption(option);
+};
 
 
 </script>

@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public APIResponse detail(String userId){
+    public APIResponse detail(Long userId){
         User user =  userService.getUserDetail(userId);
         return new APIResponse(ResponeCode.SUCCESS, "查询成功", user);
     }
@@ -193,7 +193,7 @@ public class UserController {
     @Access(level = AccessLevel.LOGIN)
     @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
     @Transactional
-    public APIResponse updatePwd(String userId, String password, String newPassword) throws IOException {
+    public APIResponse updatePwd(Long userId, String password, String newPassword) throws IOException {
         User user =  userService.getUserDetail(userId);
         if(user.getRole().equals(String.valueOf(User.NormalUser))) {
             String md5Pwd = DigestUtils.md5DigestAsHex((password + salt).getBytes());
@@ -231,4 +231,14 @@ public class UserController {
         }
         return newFileName;
     }
+
+    public static void main(String []args){
+        String salt = "abcd1234";
+        String password = "admin123";
+
+        String md5Str = DigestUtils.md5DigestAsHex((password + salt).getBytes());
+
+        System.out.println(md5Str);
+    }
+
 }
