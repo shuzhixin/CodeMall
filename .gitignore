@@ -1,0 +1,6 @@
+/server/.idea/*
+/server/target/*
+/web/.idea/*
+/web/.vite/*
+/web/node_modules/*
+/server/my-log/*
